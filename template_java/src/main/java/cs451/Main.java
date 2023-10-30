@@ -4,8 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.util.List;
+
+import cs451.utils.HostManager;
+import cs451.utils.Message;
 
 public class Main {
+    private static Process process;
 
     private static void handleSignal() {
         //immediately stop network packet processing
@@ -13,6 +18,7 @@ public class Main {
 
         //write/flush output file if necessary
         System.out.println("Writing output.");
+        process.writeLogs();
     }
 
     private static void initSignalHandlers() {
@@ -56,7 +62,28 @@ public class Main {
 
         System.out.println("Doing some initialization\n");
 
-        System.out.println("Broadcasting and delivering messages...\n");
+
+        /////////// ADDED /////////////
+        int myId = parser.myId();
+        HostManager.init(parser.hosts());
+        Host myHost = HostManager.getHostById(myId);
+        String outPath = parser.output();
+
+        // initialize process
+        List<Integer> configs = parser.getConfig();
+        int m = configs.get(0);
+        int i = configs.get(1);
+
+        
+        Host desHost = HostManager.getHostById(i);
+        // if i == myId, this line will make the process start listening
+        process = new Process(myHost, desHost, m, outPath);
+        if (i != myId) {
+            System.out.println("Sending messages from " + myId + "to" + desHost.getPort());
+            process.startSending();
+        }
+
+        System.out.println("Finishing sending messages...");
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.

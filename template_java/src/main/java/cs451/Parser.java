@@ -70,4 +70,8 @@ public class Parser {
         return configParser.getPath();
     }
 
+    public List<Integer> getConfig() {
+        return configParser.getConfig();
+    }
+
 }
