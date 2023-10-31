@@ -21,7 +21,7 @@ public class Process implements Viewer {
         this.numOfMsg = numOfMsg;
         this.logs = new ConcurrentLinkedQueue<>();
         this.desHost = desHost;
-        this.links = new StubbornLinks(host, this);
+        this.links = new PerfectLinks(host, this);
         this.outputPath = outputPath;
         // start listening
         this.links.startReceiving();

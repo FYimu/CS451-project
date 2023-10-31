@@ -1,13 +1,10 @@
 package cs451;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.Socket;
+
 import java.util.List;
 
+import cs451.links.PerfectLinks;
 import cs451.utils.HostManager;
-import cs451.utils.Message;
 
 public class Main {
     private static Process process;
@@ -76,6 +73,7 @@ public class Main {
 
         
         Host desHost = HostManager.getHostById(i);
+        PerfectLinks.init(); // create an empty set to store messages
         // if i == myId, this line will make the process start listening
         process = new Process(myHost, desHost, m, outPath);
         if (i != myId) {
