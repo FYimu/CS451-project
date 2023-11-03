@@ -27,6 +27,10 @@ public class Process implements Viewer {
         this.links.startReceiving();
     }
 
+    public void stop() {
+        this.links.stopReceiving();
+    }
+
     public void startSending() {
         System.out.println("Num of msg: " + numOfMsg);
         for (int i = 1; i < numOfMsg + 1; i ++ ) {

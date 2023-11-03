@@ -1,17 +1,15 @@
 package cs451.links;
 
+import cs451.Host;
 import cs451.utils.*;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
-import cs451.Host;
-
 public class PerfectLinks implements Links, Viewer {
     private final Viewer viewer;
     private final StubbornLinks stubbornLinks;
-    private final Host host;
     private final ReentrantLock lock = new ReentrantLock();
     private static Set<Message> delivered;
 
@@ -20,7 +18,6 @@ public class PerfectLinks implements Links, Viewer {
     }
     
     public PerfectLinks(Host host, Viewer viewer) {
-        this.host = host;
         this.viewer = viewer;
         this.stubbornLinks = new StubbornLinks(host, this);
     }

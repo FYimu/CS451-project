@@ -13,13 +13,11 @@ public class FairLossLinks implements Links, Viewer {
     private static final int NUMBER_OF_THREADS = Runtime.getRuntime().availableProcessors() + 1;
     private final Viewer viewer;
     private final Server server;
-    private final Host host;
     private final ExecutorService threadPool = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     private DatagramSocket[] clientSockets;
 
     public FairLossLinks(Host host, Viewer viewer) {
         this.viewer = viewer;
-        this.host = host;
         this.server = new Server(host, this);
         try {
             clientSockets = new DatagramSocket[NUMBER_OF_THREADS];

@@ -4,6 +4,7 @@ package cs451;
 import java.util.List;
 
 import cs451.links.PerfectLinks;
+import cs451.parser.Parser;
 import cs451.utils.HostManager;
 
 public class Main {
@@ -12,7 +13,7 @@ public class Main {
     private static void handleSignal() {
         //immediately stop network packet processing
         System.out.println("Immediately stopping network packet processing.");
-
+        process.stop();
         //write/flush output file if necessary
         System.out.println("Writing output.");
         process.writeLogs();

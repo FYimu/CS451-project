@@ -1,25 +1,21 @@
 package cs451.links;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
 import java.util.HashMap;
 
-import cs451.Host;
 import cs451.utils.Message;
 import cs451.utils.Viewer;
+import cs451.Host;
 import cs451.utils.HostAddress;
 
 public class StubbornLinks implements Links, Viewer{
     private final Viewer viewer;
     private final FairLossLinks fairLossLinks;
-    private final Host host;
     // private final HashMap<> deliveredMap;
     private static HashMap<HostAddress, Message> sent = new HashMap<>();
     private MessageResender messageResender;
 
     public StubbornLinks(Host host, Viewer viewer) {
         this.viewer = viewer;
-        this.host = host;
         this.fairLossLinks = new FairLossLinks(host, this);
         //this.deliveredMap = new HashMap<>();
         this.messageResender = new MessageResender(fairLossLinks);
@@ -63,6 +59,7 @@ public class StubbornLinks implements Links, Viewer{
         }
 
         public void run() {
+            // it keeps running after SIGTERM?
             try {
                 while(true) {
                     HashMap<HostAddress, Message> copySent = new HashMap<>(StubbornLinks.sent);

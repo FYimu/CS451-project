@@ -1,8 +1,9 @@
 package cs451.utils;
 
-import cs451.Host;
 import java.util.HashMap;
 import java.util.List;
+
+import cs451.Host;
 
 public class HostManager {
     private static HashMap<Integer, Host> manager = new HashMap<Integer, Host>();
@@ -15,6 +16,10 @@ public class HostManager {
 
     public static Host getHostById(int id) {
         return manager.get(id);
+    }
+
+    public static HashMap<Integer, Host> getAllHosts() {
+        return HostManager.manager;
     }
 
 }
