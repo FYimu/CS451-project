@@ -1,9 +1,5 @@
 package cs451;
 
-
-import java.util.List;
-
-import cs451.links.PerfectLinks;
 import cs451.parser.Parser;
 import cs451.utils.HostManager;
 
@@ -67,11 +63,11 @@ public class Main {
         Host myHost = HostManager.getHostById(myId);
         String outPath = parser.output();
 
+        /* perfect link
         // initialize process
         List<Integer> configs = parser.getConfig();
         int m = configs.get(0);
-        int i = configs.get(1);
-
+        int i = configs.get(1); 
         
         Host desHost = HostManager.getHostById(i);
         PerfectLinks.init(); // create an empty set to store messages
@@ -79,10 +75,17 @@ public class Main {
         process = new Process(myHost, desHost, m, outPath);
         if (i != myId) {
             System.out.println("Sending messages from " + myId + "to" + desHost.getPort());
-            process.startSending();
-        }
+            process.start();
+        }*/
 
-        System.out.println("Finishing sending messages...");
+        // number of messages each process should broadcast
+        int m = parser.getConfig();
+
+        process = new BroadcastProcess(myHost, m, outPath);
+        // start to broadcast
+        process.start();
+
+        System.out.println("Finishing broadcasting messages...");
 
         // After a process finishes broadcasting,
         // it waits forever for the delivery of messages.

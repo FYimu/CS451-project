@@ -11,11 +11,7 @@ public class PerfectLinks implements Links, Viewer {
     private final Viewer viewer;
     private final StubbornLinks stubbornLinks;
     private final ReentrantLock lock = new ReentrantLock();
-    private static Set<Message> delivered;
-
-    public static void init() {
-        PerfectLinks.delivered = new HashSet<>();
-    }
+    private static Set<Message> delivered = new HashSet<>();
     
     public PerfectLinks(Host host, Viewer viewer) {
         this.viewer = viewer;

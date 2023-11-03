@@ -73,7 +73,12 @@ public class Parser {
         return configParser.getPath();
     }
 
+    /* plConfig
     public List<Integer> getConfig() {
+        return configParser.getConfig();
+    } */
+    
+    public int getConfig() {
         return configParser.getConfig();
     }
 
