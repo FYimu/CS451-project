@@ -35,7 +35,7 @@ public class FairLossLinks implements Links, Viewer {
         int selectedSocket = ThreadLocalRandom.current().nextInt(clientSockets.length);
         Client client = new Client(receiver, message, clientSockets[selectedSocket]);
         //debug
-        System.out.println("Message sent: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
+        // System.out.println("Message sent: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
         threadPool.execute(client);
     }
 
@@ -43,7 +43,7 @@ public class FairLossLinks implements Links, Viewer {
 
     @Override
     public void deliver(Message message) {
-        System.out.println("FL is delivering message: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
+        // System.out.println("FL is delivering message: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
         this.viewer.deliver(message);
     }
 

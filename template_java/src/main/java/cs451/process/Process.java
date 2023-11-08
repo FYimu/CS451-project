@@ -1,4 +1,4 @@
-package cs451;
+package cs451.process;
 
 import cs451.utils.Message;
 

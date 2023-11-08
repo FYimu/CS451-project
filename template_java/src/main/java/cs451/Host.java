@@ -53,4 +53,9 @@ public class Host {
         return port;
     }
 
+    @Override
+    public String toString() {
+        return "Host " + id + " with ip " + ip;
+    }
+
 }

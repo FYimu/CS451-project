@@ -1,6 +1,8 @@
 package cs451;
 
 import cs451.parser.Parser;
+import cs451.process.BroadcastProcess;
+import cs451.process.Process;
 import cs451.utils.HostManager;
 
 public class Main {

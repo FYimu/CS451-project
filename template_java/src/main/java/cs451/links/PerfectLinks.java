@@ -5,12 +5,10 @@ import cs451.utils.*;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class PerfectLinks implements Links, Viewer {
     private final Viewer viewer;
     private final StubbornLinks stubbornLinks;
-    private final ReentrantLock lock = new ReentrantLock();
     private static Set<Message> delivered = new HashSet<>();
     
     public PerfectLinks(Host host, Viewer viewer) {
@@ -34,17 +32,12 @@ public class PerfectLinks implements Links, Viewer {
     }
 
     @Override
-    public void deliver(Message message) {
-        lock.lock();
+    public synchronized void deliver(Message message) {
         if (!delivered.contains(message)) {
-            System.out.println("======DEBUG======");
-            for (Message m : delivered) {
-                System.out.println(m);
-            }
-            System.out.println("The message is: " + message.getSeqNr() + " sent by " + message.getSender());
+            // System.out.println("======DEBUG======");
+            // System.out.println("The message is: " + message.getSeqNr() + " sent by " + message.getSender());
             PerfectLinks.delivered.add(message);
             this.viewer.deliver(message);
         }
-        lock.unlock();
     }
 }

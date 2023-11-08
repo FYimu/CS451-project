@@ -26,7 +26,6 @@ public class StubbornLinks implements Links, Viewer{
     @Override
     public void send(Message message, Host receiver) {
         if (!message.isAck()) {
-            message.ack();
             sent.put(new HostAddress(message.getSender(), receiver), message);
         }
         fairLossLinks.send(message, receiver);
@@ -37,7 +36,7 @@ public class StubbornLinks implements Links, Viewer{
 
     @Override
     public void deliver(Message message) {
-        System.out.println("BL is delivering message: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
+        // System.out.println("BL is delivering message: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
         this.viewer.deliver(message);
     }
 
@@ -64,12 +63,13 @@ public class StubbornLinks implements Links, Viewer{
                 while(true) {
                     HashMap<HostAddress, Message> copySent = new HashMap<>(StubbornLinks.sent);
 
-                    for (Message message : copySent.values()) {
+                    for (HostAddress hostAddress : copySent.keySet()) {
                         // resend the message
-                        this.links.send(message, message.getReceiver());
+                        this.links.send(copySent.get(hostAddress), hostAddress.getServer());
+                        System.out.println("Resending message: from " + hostAddress.getClient() + " to " + hostAddress.getServer() + " message # " + copySent.get(hostAddress).getSeqNr());
                     }
                 
-                    Thread.sleep(400);
+                    Thread.sleep(1000);
                 }
             } catch (InterruptedException error) {
                 error.printStackTrace();
