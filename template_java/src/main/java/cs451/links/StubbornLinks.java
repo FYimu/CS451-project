@@ -66,10 +66,10 @@ public class StubbornLinks implements Links, Viewer{
                     for (HostAddress hostAddress : copySent.keySet()) {
                         // resend the message
                         this.links.send(copySent.get(hostAddress), hostAddress.getServer());
-                        System.out.println("Resending message: from " + hostAddress.getClient() + " to " + hostAddress.getServer() + " message # " + copySent.get(hostAddress).getSeqNr());
+                        //System.out.println("Resending message: from " + hostAddress.getClient() + " to " + hostAddress.getServer() + " message # " + copySent.get(hostAddress).getSeqNr());
                     }
                 
-                    Thread.sleep(1000);
+                    Thread.sleep(200l);
                 }
             } catch (InterruptedException error) {
                 error.printStackTrace();

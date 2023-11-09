@@ -24,7 +24,6 @@ public class BestEffortBroadcast implements Broadcast, Viewer {
             this.perfectLinks.send(message, host);
         }*/
         allHosts.values().parallelStream().forEach(host -> {
-            System.out.println("Sending to " + host);
             this.perfectLinks.send(message, host);
         });
     }

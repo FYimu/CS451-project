@@ -39,10 +39,10 @@ public class Server extends Thread {
             while (isRunning.get()) {
                 socket.receive(packet);
                 // debug
-                System.out.println("Socket received...");
+                //System.out.println("Socket received...");
                 Message message = new Message(packet.getData());
                 // debug
-                System.out.println("Message received: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
+                System.out.println("Message received: " + String.format("d %d %d sent by %d\n", message.getOriginalSender().getId(), message.getSeqNr(), message.getSender().getId()));
                 THREAD_POOL.execute(() -> viewer.deliver(message));
             }
         } catch (IOException error) {

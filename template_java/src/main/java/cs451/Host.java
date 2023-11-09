@@ -2,6 +2,7 @@ package cs451;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Objects;
 
 public class Host {
 
@@ -58,4 +59,18 @@ public class Host {
         return "Host " + id + " with ip " + ip;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null | getClass() != o.getClass()) return false;
+        Host other = (Host) o;
+        return this.id == other.id &&
+        this.ip.equals(other.ip) &&
+        this.port == other.port;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, ip, port);
+    }
 }
