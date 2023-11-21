@@ -3,22 +3,26 @@ package cs451.utils;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import cs451.Host;
 
 public class Message {
+    private static AtomicInteger MSG_INDEX = new AtomicInteger(1);
+    private final int msgIndex;
     private final int seqNr;
     
     private final Host sender;
     private final Host receiver;
     private final Host originalSender;
-    private boolean isAck = false;
 
     public Message(Host sender, Host receiver, int seqNr) {
         this.sender = sender;
         this.receiver = receiver;
         this.seqNr = seqNr;
         this.originalSender = sender;
+        this.msgIndex = MSG_INDEX.get();
+        Message.MSG_INDEX.incrementAndGet();
     }
 
     public Message(byte[] byteMessage) {
@@ -26,18 +30,10 @@ public class Message {
         int senderId = byteMessage[4];
         int receiverId = byteMessage[5];
         int originalSenderId = byteMessage[6];
-        this.isAck = (int) byteMessage[7] != 0;
+        msgIndex = (int) byteMessage[7];
         this.sender = HostManager.getHostById(senderId);
         this.receiver = HostManager.getHostById(receiverId);
         this.originalSender = HostManager.getHostById(originalSenderId);
-    }
-
-    public void ack() {
-        this.isAck = true;
-    }
-
-    public boolean isAck() {
-        return isAck;
     }
 
     public byte[] getByteMessage(Host resender) {
@@ -47,7 +43,7 @@ public class Message {
         byteMsg[4] = (byte) resender.getId();
         byteMsg[5] = (byte) receiver.getId();
         byteMsg[6] = (byte) originalSender.getId();
-        byteMsg[7] = isAck ? (byte) 1 : 0;
+        byteMsg[7] = (byte) msgIndex;
         return byteMsg;
     }
 
@@ -67,6 +63,10 @@ public class Message {
         return this.seqNr;
     }
 
+    public int getMsgIndex() {
+        return msgIndex;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,18 +76,18 @@ public class Message {
         // need to compare sender otherwise PL would only deliver once for URB
         this.sender.getId() == other.sender.getId() &&
         this.originalSender.getId() == other.originalSender.getId() &&
-        this.isAck == other.isAck;
+        this.msgIndex == other.msgIndex;
 
     }
 
     @Override
     public String toString() {
-        return this.seqNr + " " + this.originalSender.getId() + " " + this.isAck;
+        return this.seqNr + " " + this.originalSender.getId() + " " + this.msgIndex;
     }
 
     // override for Set.contains()
     @Override
     public int hashCode() {
-        return Objects.hash(seqNr, sender.getId(), originalSender.getId(), isAck);
+        return Objects.hash(seqNr, sender.getId(), originalSender.getId(), msgIndex);
     }
 }

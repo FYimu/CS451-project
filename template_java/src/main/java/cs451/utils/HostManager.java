@@ -18,6 +18,10 @@ public class HostManager {
         return manager.get(id);
     }
 
+    public static int getTotalHostNumber() {
+        return manager.size();
+    }
+
     public static HashMap<Integer, Host> getAllHosts() {
         return HostManager.manager;
     }

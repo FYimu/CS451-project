@@ -19,10 +19,6 @@ public class BestEffortBroadcast implements Broadcast, Viewer {
     @Override
     public void broadcast(Message message) {
         HashMap<Integer, Host> allHosts = HostManager.getAllHosts();
-        /*for (Host host : allHosts.values()) {
-            System.out.println("Sending to " + host);
-            this.perfectLinks.send(message, host);
-        }*/
         allHosts.values().parallelStream().forEach(host -> {
             this.perfectLinks.send(message, host);
         });

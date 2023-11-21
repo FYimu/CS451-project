@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import cs451.Host;
 import cs451.broadcast.Broadcast;
-import cs451.broadcast.UniformReliableBroadcast;
+import cs451.broadcast.FIFOBroadcast;
 import cs451.utils.Message;
 import cs451.utils.Viewer;
 
@@ -21,7 +21,7 @@ public class BroadcastProcess implements Process, Viewer {
         this.host = host;
         this.numOfMsg = numOfMsg;
         this.logs = new ConcurrentLinkedQueue<>();
-        this.broadcast = new UniformReliableBroadcast(host, this);
+        this.broadcast = new FIFOBroadcast(host, this);
         this.outputPath = outputPath;
         // start listening
         this.broadcast.startReceiving();

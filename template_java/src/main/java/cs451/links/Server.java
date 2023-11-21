@@ -42,7 +42,7 @@ public class Server extends Thread {
                 //System.out.println("Socket received...");
                 Message message = new Message(packet.getData());
                 // debug
-                System.out.println("Message received: " + String.format("d %d %d sent by %d\n", message.getOriginalSender().getId(), message.getSeqNr(), message.getSender().getId()));
+                //System.out.println("Message received: " + String.format("d %d %d sent by %d\n", message.getOriginalSender().getId(), message.getSeqNr(), message.getSender().getId()));
                 THREAD_POOL.execute(() -> viewer.deliver(message));
             }
         } catch (IOException error) {

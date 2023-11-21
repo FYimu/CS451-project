@@ -46,11 +46,11 @@ public class UniformReliableBroadcast implements Broadcast, Viewer{
             ack.put(messageId, new HashSet<>());
         }
         // add the host who broadcasts this message to the set of hosts who acknowledge
-        System.out.println(messageId);
-        System.out.println(ack.get(messageId));
+        //System.out.println(messageId);
+        //System.out.println(ack.get(messageId));
         ack.get(messageId).add(message.getSender());
-        System.out.println("Host " + message.getSender().getId() + " acknowledges message " + message);
-        System.out.println(ack.get(messageId));
+        //System.out.println("Host " + message.getSender().getId() + " acknowledges message " + message);
+        //System.out.println(ack.get(messageId));
         if (!pending.contains(messageId)) {
             pending.add(messageId);
             this.bestEffortBroadcast.broadcast(message);
@@ -69,10 +69,8 @@ public class UniformReliableBroadcast implements Broadcast, Viewer{
                 delivered.add(messageId2);
             }
         }
-
         
     }
-
     
 
     @Override
@@ -86,38 +84,10 @@ public class UniformReliableBroadcast implements Broadcast, Viewer{
     }
 
     public boolean candeliver(MessageIdentification messageId) {
-        System.out.println("DEBUG: " + UniformReliableBroadcast.ack.getOrDefault(messageId, new HashSet<>()).size());
+        //System.out.println("DEBUG: " + UniformReliableBroadcast.ack.getOrDefault(messageId, new HashSet<>()).size());
         return UniformReliableBroadcast.ack.getOrDefault(messageId, new HashSet<>()).size() > N/2;
     }
 
-    /*x
-
-    private static class DeliverHelper extends Thread {
-        private final Viewer viewer;
-
-        DeliverHelper(Viewer viewer) {
-            this.viewer = viewer;
-        }
-
-        public synchronized void run() {
-            try {
-                while (true) {
-                    for (MessageIdentification messageId : pending) {
-                        Message message = messageId.getMessage();
-                        if (UniformReliableBroadcast.candeliver(messageId) && !delivered.contains(messageId)) {
-                            viewer.deliver(message);
-                            delivered.add(messageId);
-                        }
-                    }
-                    Thread.sleep(2000l);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            
-        }
-        
-    } */
 }
 
 

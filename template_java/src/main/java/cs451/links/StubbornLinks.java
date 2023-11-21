@@ -25,9 +25,7 @@ public class StubbornLinks implements Links, Viewer{
 
     @Override
     public void send(Message message, Host receiver) {
-        if (!message.isAck()) {
-            sent.put(new HostAddress(message.getSender(), receiver), message);
-        }
+        sent.put(new HostAddress(message.getSender(), receiver), message);
         fairLossLinks.send(message, receiver);
         
     }

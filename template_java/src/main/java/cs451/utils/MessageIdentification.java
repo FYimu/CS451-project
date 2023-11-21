@@ -8,11 +8,13 @@ public class MessageIdentification {
     private final int id;
     private final Host originalSender;
     private final Message message;
+    private final int msgIndex;
 
     public MessageIdentification(Message message) {
         this.id = message.getSeqNr();
         this.originalSender = message.getOriginalSender();
         this.message = new Message(message.getByteMessage(originalSender));
+        this.msgIndex = message.getMsgIndex();
     }
 
     public int getSeqNr() {
@@ -34,12 +36,13 @@ public class MessageIdentification {
         MessageIdentification other = (MessageIdentification) o;
         return this.id == other.id &&
         this.originalSender.equals(other.originalSender) &&
-        this.message.equals(other.message);
+        this.message.equals(other.message) &&
+        this.msgIndex == other.msgIndex;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, originalSender, message);
+        return Objects.hash(id, originalSender, message, msgIndex);
     }
 
 }
