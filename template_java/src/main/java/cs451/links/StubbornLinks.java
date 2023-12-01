@@ -25,7 +25,7 @@ public class StubbornLinks implements Links, Viewer{
 
     @Override
     public void send(Message message, Host receiver) {
-        sent.put(new HostAddress(message.getSender(), receiver), message);
+        sent.put(new HostAddress(receiver, message.getMsgIndex()), message);
         fairLossLinks.send(message, receiver);
         
     }
@@ -34,8 +34,13 @@ public class StubbornLinks implements Links, Viewer{
 
     @Override
     public void deliver(Message message) {
-        // System.out.println("BL is delivering message: " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
-        this.viewer.deliver(message);
+        if (message.isAck()) { // "deliver" at sender side
+            sent.remove(new HostAddress(message.getSender(), message.getMsgIndex()));
+        } else { // deliver at receiver side
+            send(new Message(message, true), message.getSender()); // an acknowledge dummy message (will not be delivered)
+            //System.out.println("Stubborn Link delivers " + String.format("d %d %d\n", message.getSender().getId(), message.getSeqNr()));
+            this.viewer.deliver(message);
+        }
     }
 
     @Override

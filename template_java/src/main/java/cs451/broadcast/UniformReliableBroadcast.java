@@ -28,9 +28,7 @@ public class UniformReliableBroadcast implements Broadcast, Viewer{
         this.viewer = viewer;
         this.bestEffortBroadcast = new BestEffortBroadcast(host, this);
         //deliverHelper = new DeliverHelper(viewer);
-        
     }
-
 
     @Override
     public void broadcast(Message message) {
@@ -63,7 +61,7 @@ public class UniformReliableBroadcast implements Broadcast, Viewer{
         // 3. same receiver
         // 4. same sender
         for (MessageIdentification messageId2 : pending) {
-            Message message2 = messageId.getMessage();
+            Message message2 = messageId2.getMessage();
             if (candeliver(messageId2) && !delivered.contains(messageId2)) {
                 viewer.deliver(message2);
                 delivered.add(messageId2);
